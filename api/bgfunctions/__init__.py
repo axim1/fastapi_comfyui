@@ -1,1 +1,2 @@
 from api.bgfunctions.produtworkflowbg import productworkflowbg as productworkflowbg
+from api.bgfunctions.virtual_tryon import virtual_tryonbg as virtual_tryonbg

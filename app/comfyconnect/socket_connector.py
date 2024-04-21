@@ -71,19 +71,25 @@ class ComfyConnector:
     def get_image(self, filename, subfolder, folder_type): # This method is used to retrieve an image from the API server
         data = {"filename": filename, "subfolder": subfolder, "type": folder_type}
         url_values = urllib.parse.urlencode(data)
-        with urllib.request.urlopen(f"{self.server_address}/view?{url_values}") as response:
-            return response.read()
+        response = requests.get(f"{self.server_address}/view?{url_values}")
+        return response.content
+        # with urllib.request.urlopen(f"{self.server_address}/view?{url_values}") as response:
+        #     return response.read()
         
     def queue_prompt(self, prompt): # This method is used to queue a prompt for execution
         p = {"prompt": prompt, "client_id": self.client_id}
         data = json.dumps(p).encode('utf-8')
         headers = {'Content-Type': 'application/json'}  # Set Content-Type header
-        req = urllib.request.Request(f"{self.server_address}/prompt", data=data, headers=headers)
-        return json.loads(urllib.request.urlopen(req).read())
+        # req = urllib.request.Request(f"{self.server_address}/prompt", data=data,method='POST', headers=headers)
+        # return json.loads(urllib.request.urlopen(req).read())
+        req= requests.post(f"{self.server_address}/prompt", data=data, headers=headers)
+        return req.json()
             
     def get_history(self, prompt_id): # This method is used to retrieve the history of a prompt from the API server
-        with urllib.request.urlopen(f"{self.server_address}/history/{prompt_id}") as response:
-            return json.loads(response.read())
+        # with urllib.request.urlopen(f"{self.server_address}/history/{prompt_id}") as response:
+        #     return json.loads(response.read())
+        response = requests.get(f"{self.server_address}/history/{prompt_id}")
+        return response.json()
         
     
     def generate_images(self, payload): # This method is used to generate images from a prompt and is the main method of this class
@@ -142,7 +148,7 @@ class ComfyConnector:
     def find_output_node(json_object): # This method is used to find the node containing the SaveImage class in a prompt
         for key, value in json_object.items():
             if isinstance(value, dict):
-                if value.get("class_type") == "SaveImage":
+                if value.get("class_type") == "SaveImage" or value.get("class_type") == "Image Save":
                     return f"['{key}']"  # Return the key containing the SaveImage class
                 result = ComfyConnector.find_output_node(value)
                 if result:
@@ -164,7 +170,6 @@ class ComfyConnector:
 
                 # Proceed only if the node title matches the specified title
                 if node_title == title:
-                    import pdb;pdb.set_trace()
 
                     class_type = value.get('class_type') 
 

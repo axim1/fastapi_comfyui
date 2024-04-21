@@ -1,0 +1,80 @@
+{
+    "1": {
+      "inputs": {
+        "seed": 822310804201129,
+        "steps": 20,
+        "cfg": 2,
+        "category": "Upper body",
+        "pipe": [
+          "2",
+          0
+        ],
+        "cloth_image": [
+          "3",
+          0
+        ],
+        "model_image": [
+          "4",
+          0
+        ]
+      },
+      "class_type": "OOTDGenerate",
+      "_meta": {
+        "title": "OOTDiffusion Generate"
+      }
+    },
+    "2": {
+      "inputs": {
+        "type": "Half body"
+      },
+      "class_type": "LoadOOTDPipelineHub",
+      "_meta": {
+        "title": "Load OOTDiffusion from Hub🤗"
+      }
+    },
+    "3": {
+      "inputs": {
+        "image": "shirt 1.png",
+        "upload": "image"
+      },
+      "class_type": "LoadImage",
+      "_meta": {
+        "title": "Garment Image"
+      }
+    },
+    "4": {
+      "inputs": {
+        "image": "object 1.png",
+        "upload": "image"
+      },
+      "class_type": "LoadImage",
+      "_meta": {
+        "title": "Model Image"
+      }
+    },
+    "6": {
+      "inputs": {
+        "output_path": "[time(%Y-%m-%d)]",
+        "filename_prefix": "ComfyUI",
+        "filename_delimiter": "_",
+        "filename_number_padding": 4,
+        "filename_number_start": "false",
+        "extension": "png",
+        "quality": 100,
+        "lossless_webp": "false",
+        "overwrite_mode": "false",
+        "show_history": "false",
+        "show_history_by_prefix": "false",
+        "embed_workflow": "false",
+        "show_previews": "true",
+        "images": [
+          "1",
+          0
+        ]
+      },
+      "class_type": "Image Save",
+      "_meta": {
+        "title": "Image Save"
+      }
+    }
+  }

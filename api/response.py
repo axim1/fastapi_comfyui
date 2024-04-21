@@ -5,3 +5,7 @@ class ProductWorkflowResponse(BaseModel):
     negative_prompt: str
     num_images: int
     images_info: list
+
+class VirtualTryonResponse(BaseModel):
+    num_images: int
+    images_info: list

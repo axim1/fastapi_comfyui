@@ -13,8 +13,8 @@ import threading
 import random
 from fastapi_utils.cbv import cbv
 from fastapi_utils.inferring_router import InferringRouter
-from api.response import ProductWorkflowResponse
-from api.bgfunctions import productworkflowbg
+from api.response import ProductWorkflowResponse, VirtualTryonResponse
+from api.bgfunctions import productworkflowbg, virtual_tryonbg
 import typing as T
 from api.request import read_image
 # count of number of tasks running
@@ -100,3 +100,45 @@ class StableDiffusion:
             images_info=images_info
         )
 
+    @router.post('/virtual_tryon')
+    async def virtual_tryon(
+        self,
+        garment_image: UploadFile = File(...),
+        model_image: UploadFile = File(...),
+        num_images: int = Form(1, description="Number of images to generate"),
+        revert_extra: str = Form(default=None, description= " Identifier to revert the extra data in the callback url"),
+        callback_url: str = Form(default=None, description="Callback URL to send the generated images"),
+        background_tasks: BackgroundTasks = BackgroundTasks()
+        )->VirtualTryonResponse:
+
+        garment_image = read_image(garment_image)
+        model_image = read_image(model_image)
+        garment_image_uuid = str(uuid4())
+        garment_image.save(f"{env.SAVE_DIR}/{garment_image_uuid}.png")
+        model_image_uuid = str(uuid4())
+        model_image.save(f"{env.SAVE_DIR}/{model_image_uuid}.png")
+        if revert_extra:
+            revert_extra = str(uuid4())
+
+        # generating multiple uuids and seeds for the images
+        uuid_mul = [str(uuid4()) for i in range(num_images)]
+
+        images_info = []
+        for i in range(num_images):
+            images_info.append({'image_uuid': str(uuid_mul[i])})
+            
+        # getting the input data from the request and passing it to background function
+        background_tasks.add_task(virtual_tryonbg,
+                                sd_svc=self.svc,
+                                garment_image_uuid=garment_image_uuid,
+                                model_image_uuid=model_image_uuid,
+                                num_images=num_images,
+                                uuid_mul=uuid_mul,
+                                revert_extra=revert_extra,
+                                q=q,
+                                callback_url=callback_url
+                                )
+        return VirtualTryonResponse(
+            num_images=num_images,
+            images_info=images_info
+        )

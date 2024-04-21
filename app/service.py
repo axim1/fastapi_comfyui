@@ -2,7 +2,7 @@ from service_streamer import ThreadedStreamer
 from app.manager import APIManager, build_streamer
 from fastapi import Depends
 from PIL import Image
-from app.schema import DummyTask
+from app.schema import DummyTask, VirtualTryonTask
 import typing as T
 
 class StableDiffusionService:
@@ -29,6 +29,23 @@ class StableDiffusionService:
                 prompt=prompt,
                 negative_prompt=negative_prompt,
                 input_image_uuid=input_image_uuid,
+            )
+        ]
+        result = self.summit(task)
+        if result:
+            return result
+        else:
+            return None
+        
+    def virutal_tryon(
+            self,
+            garment_image_uuid: str,
+            model_image_uuid: str,
+            ):
+        task = [
+            VirtualTryonTask(
+                garment_image_uuid=garment_image_uuid,
+                model_image_uuid=model_image_uuid,
             )
         ]
         result = self.summit(task)
