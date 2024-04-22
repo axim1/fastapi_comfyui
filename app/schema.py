@@ -10,3 +10,4 @@ class DummyTask(BaseModel):
 class VirtualTryonTask(BaseModel):
     model_image_uuid: str
     garment_image_uuid: str
+    category: str

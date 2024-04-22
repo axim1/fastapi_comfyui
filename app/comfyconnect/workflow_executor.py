@@ -16,23 +16,29 @@ class WorkflowExecutor(ComfyConnector):
     def execute_workflow(self, task):
         task_dict = task.dict()
         payload = self.load_payload(f'workflows/{self.workflow_mapping[task.__class__]}')
-        
-        if isinstance(task, DummyTask):
-            file_path = self.upload_image(os.path.join(env.SAVE_DIR, f"{task_dict['input_image_uuid']}.png"))
-            # removing the file after uploading
-            os.remove(os.path.join(env.SAVE_DIR, f"{task_dict['input_image_uuid']}.png"))
-            images = self.dummyworkflow(payload, task_dict, file_path)
+        try:
+            if isinstance(task, DummyTask):
+                file_path = self.upload_image(os.path.join(env.SAVE_DIR, f"{task_dict['input_image_uuid']}.png"))
+                # removing the file after uploading
+                os.remove(os.path.join(env.SAVE_DIR, f"{task_dict['input_image_uuid']}.png"))
+                images = self.dummyworkflow(payload, task_dict, file_path)
 
-        elif isinstance(task, VirtualTryonTask):
-            garment_file_path = self.upload_image(os.path.join(env.SAVE_DIR, f"{task_dict['garment_image_uuid']}.png"))
-            model_file_path = self.upload_image(os.path.join(env.SAVE_DIR, f"{task_dict['model_image_uuid']}.png"))
-            os.remove(os.path.join(env.SAVE_DIR, f"{task_dict['garment_image_uuid']}.png"))
-            os.remove(os.path.join(env.SAVE_DIR, f"{task_dict['model_image_uuid']}.png"))
-            images = self.virutal_tryon(payload, garment_file_path, model_file_path)
-        else:
-            image = [None]
-            logger_main.info(f"Invalid Task Type")
-        return images
+            elif isinstance(task, VirtualTryonTask):
+                garment_file_path = self.upload_image(os.path.join(env.SAVE_DIR, f"{task_dict['garment_image_uuid']}.png"))
+                model_file_path = self.upload_image(os.path.join(env.SAVE_DIR, f"{task_dict['model_image_uuid']}.png"))
+                os.remove(os.path.join(env.SAVE_DIR, f"{task_dict['garment_image_uuid']}.png"))
+                os.remove(os.path.join(env.SAVE_DIR, f"{task_dict['model_image_uuid']}.png"))
+                images = self.virutal_tryon(payload, garment_file_path, model_file_path, category = task_dict['category'])
+            else:
+                image = [None]
+                logger_main.info(f"Invalid Task Type")
+            if images:
+                return images
+            else:
+                return [None]
+        except Exception as e:
+            logger_main.exception(f"Error in generating image: {e}")
+            return [None]
 
     def dummyworkflow(
             self,
@@ -55,10 +61,12 @@ class WorkflowExecutor(ComfyConnector):
             payload,
             garment_file_path: str,
             model_file_path: str,
+            category,
             ):
         try:
             ComfyConnector.replace_key_value_in_node(payload, target_key = "image", new_value = garment_file_path['name'], target_title="Garment Image")
             ComfyConnector.replace_key_value_in_node(payload, target_key = "image", new_value = model_file_path['name'], target_title="Model Image")
+            ComfyConnector.replace_key_value_in_node(payload, target_key = "category", new_value = category, target_title="OOTDiffusion Generate")
             images = self.generate_images(payload)
             return images
         except Exception as e:

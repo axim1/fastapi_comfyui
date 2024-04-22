@@ -18,11 +18,13 @@ class APIManager(WorkflowExecutor):
         task_new = task[0]
         try:
             images = self.execute_workflow(task_new)
+            logger_main.info(f"Predicting data: {task_new.dict()}")
+            return images
         except Exception as e:
             logger_main.exception(f"Error in generating image: {e}")
             images = [None]
-        logger_main.info(f"Predicting data: {task_new.dict()}")
-        return images
+            return images
+        
         
     
 @lru_cache(maxsize=1)

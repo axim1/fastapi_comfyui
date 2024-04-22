@@ -25,7 +25,7 @@
     },
     "2": {
       "inputs": {
-        "type": "Half body"
+        "type": "Full body"
       },
       "class_type": "LoadOOTDPipelineHub",
       "_meta": {

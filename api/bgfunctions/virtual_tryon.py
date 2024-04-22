@@ -13,7 +13,8 @@ def virtual_tryonbg(
         uuid_mul,
         revert_extra,
         q,
-        callback_url
+        callback_url,
+        category
     ):
 
     global global_counter
@@ -24,6 +25,7 @@ def virtual_tryonbg(
             image = sd_svc.virutal_tryon(
                 garment_image_uuid=garment_image_uuid,
                 model_image_uuid=model_image_uuid,
+                category=category
                 )
             if image:
                 image.save(f'./static/{uuid_mul[i]}.png')

@@ -41,17 +41,23 @@ class StableDiffusionService:
             self,
             garment_image_uuid: str,
             model_image_uuid: str,
+            category: str,
             ):
         task = [
             VirtualTryonTask(
                 garment_image_uuid=garment_image_uuid,
                 model_image_uuid=model_image_uuid,
+                category=category
             )
         ]
-        result = self.summit(task)
-        if result:
-            return result
-        else:
+        try:
+            result = self.summit(task)
+            if result:
+                return result
+            else:
+                return None
+        except Exception as e:
+            print(f"Error in getting the result: {e}")
             return None
 
 

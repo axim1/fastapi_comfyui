@@ -105,6 +105,7 @@ class StableDiffusion:
         self,
         garment_image: UploadFile = File(...),
         model_image: UploadFile = File(...),
+        category: str = Form(default="Upper body", description= " Upper body or Lower body or Dress"),
         num_images: int = Form(1, description="Number of images to generate"),
         revert_extra: str = Form(default=None, description= " Identifier to revert the extra data in the callback url"),
         callback_url: str = Form(default=None, description="Callback URL to send the generated images"),
@@ -136,9 +137,11 @@ class StableDiffusion:
                                 uuid_mul=uuid_mul,
                                 revert_extra=revert_extra,
                                 q=q,
-                                callback_url=callback_url
+                                callback_url=callback_url,
+                                category=category
                                 )
         return VirtualTryonResponse(
             num_images=num_images,
+            category=category,
             images_info=images_info
         )

@@ -8,4 +8,5 @@ class ProductWorkflowResponse(BaseModel):
 
 class VirtualTryonResponse(BaseModel):
     num_images: int
+    category: str
     images_info: list
