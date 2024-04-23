@@ -91,16 +91,16 @@ class ComfyConnector:
         response = requests.get(f"{self.server_address}/history/{prompt_id}")
         return response.json()
         
-    def ensure_connection(self):
-        # Repeatedly try to connect until successful
-        while not self.ws.connected:
-            print("WebSocket is not connected. Reconnecting...")
-            try:
-                self.ws.connect(self.ws_address)
-                time.sleep(1)  # Wait a bit before checking the connection status again
-            except Exception as e:
-                print(f"Failed to connect: {e}")
-                time.sleep(5)  # Wait longer after a failed attempt to avoid flooding with connection requests
+    # def ensure_connection(self):
+    #     # Repeatedly try to connect until successful
+    #     while not self.ws.connected:
+    #         print("WebSocket is not connected. Reconnecting...")
+    #         try:
+    #             self.ws.connect(self.ws_address)
+    #             time.sleep(1)  # Wait a bit before checking the connection status again
+    #         except Exception as e:
+    #             print(f"Failed to connect: {e}")
+    #             time.sleep(5)  # Wait longer after a failed attempt to avoid flooding with connection requests
 
     def generate_images(self, payload): # This method is used to generate images from a prompt and is the main method of this class
         try:
@@ -119,7 +119,11 @@ class ComfyConnector:
                                 break
                 except Exception as e:
                     logger_main.info("Connection lost. Attempting to reconnect...")
-                    self.ensure_connection()
+                    status = self.connect()
+                    if status:
+                        logger_main.info("Reconnected successfully.")
+                    else:
+                        logger_main.info("Failed to reconnect. Exiting...")
             address = self.find_output_node(payload) # Find the SaveImage node; workflow MUST contain only one SaveImage node
             history = self.get_history(prompt_id)[prompt_id]
             filenames = eval(f"history['outputs']{address}")['images']  # Extract all images
