@@ -106,10 +106,13 @@ class ComfyConnector:
         try:
             if not self.ws.connected: # Check if the WebSocket is connected to the API server and reconnect if necessary
                 print("WebSocket is not connected. Reconnecting...")
-                self.ws.connect(self.ws_address)
+                self.connect()
             prompt_id = self.queue_prompt(payload)['prompt_id']
             while True:
                 try:
+                    if not self.ws.connected: # Check if the WebSocket is connected to the API server and reconnect if necessary
+                        print("WebSocket is not connected. Reconnecting...")
+                        self.connect()
                     out = self.ws.recv() # Wait for a message from the API server
                     if isinstance(out, str): # Check if the message is a string
                         message = json.loads(out) # Parse the message as JSON
@@ -119,22 +122,7 @@ class ComfyConnector:
                                 break
                 except Exception as e:
                     logger_main.info("Connection lost. Attempting to reconnect...")
-                    status = self.connect()
-                    if status:
-                        logger_main.info("Reconnected successfully.")
-                    else:
-                        logger_main.info("Failed to reconnect. Exiting...")
-                    try:
-                        out = self.ws.recv() # Wait for a message from the API server
-                        if isinstance(out, str): # Check if the message is a string
-                            message = json.loads(out) # Parse the message as JSON
-                            if message['type'] == 'executing': # Check if the message is an 'executing' message
-                                data = message['data'] # Extract the data from the message
-                                if data['node'] is None and data['prompt_id'] == prompt_id:
-                                    break
-                    except Exception as e:
-                        logger_main.info("Connection lost. Server Down...")
-
+                    self.connect()
             address = self.find_output_node(payload) # Find the SaveImage node; workflow MUST contain only one SaveImage node
             history = self.get_history(prompt_id)[prompt_id]
             filenames = eval(f"history['outputs']{address}")['images']  # Extract all images
