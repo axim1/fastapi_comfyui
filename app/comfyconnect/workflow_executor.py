@@ -47,7 +47,7 @@ class WorkflowExecutor(ComfyConnector):
             file_path,
         ):
         try:
-            ComfyConnector.replace_key_value_in_node(payload, target_key = "image", new_value = file_path['name'], target_title="Input Image")
+            ComfyConnector.replace_key_value_in_node(payload, target_key = "image", new_value = file_path['name'], target_title="Model Image")
             ComfyConnector.replace_key_value_in_node(payload, target_key = "text", new_value = task_dict['prompt'], target_title="Positive Prompt")
             ComfyConnector.replace_key_value_in_node(payload, target_key = "text", new_value = task_dict['negative_prompt'], target_title="Negative Prompt")
             images = self.generate_images(payload)

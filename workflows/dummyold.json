@@ -6,7 +6,7 @@
     },
     "class_type": "LoadImage",
     "_meta": {
-      "title": "Load Image"
+      "title": "Model Image"
     }
   },
   "2": {
@@ -40,7 +40,7 @@
   },
   "5": {
     "inputs": {
-      "ipadapter_file": "ip-adapter-faceid_sdxl.bin"
+      "ipadapter_file": "ip-adapter-faceid-plusv2_sdxl.bin"
     },
     "class_type": "IPAdapterModelLoader",
     "_meta": {
@@ -102,7 +102,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
+      "title": "Positive Prompt"
     }
   },
   "14": {
@@ -184,7 +184,7 @@
   "24": {
     "inputs": {
       "add_noise": "enable",
-      "noise_seed": 1089735123897147,
+      "noise_seed": 302045575881570,
       "steps": 10,
       "cfg": 5.6000000000000005,
       "sampler_name": "dpmpp_2m",
@@ -217,7 +217,7 @@
   "25": {
     "inputs": {
       "add_noise": "enable",
-      "noise_seed": 542441499798711,
+      "noise_seed": 321918696926539,
       "steps": 20,
       "cfg": 5.6000000000000005,
       "sampler_name": "dpmpp_2m",
@@ -257,7 +257,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
+      "title": "Negative Prompt"
     }
   },
   "31": {
@@ -307,7 +307,7 @@
       "guide_size": 384,
       "guide_size_for": true,
       "max_size": 1024,
-      "seed": 75422124324463,
+      "seed": 104,
       "steps": 8,
       "cfg": 4,
       "sampler_name": "dpmpp_2m",
@@ -323,7 +323,7 @@
       "sam_dilation": 0,
       "sam_threshold": 0.93,
       "sam_bbox_expansion": 0,
-      "sam_mask_hint_threshold": 0.7000000000000001,
+      "sam_mask_hint_threshold": 0.7,
       "sam_mask_hint_use_negative": "False",
       "drop_size": 10,
       "wildcard": "bright blue eyes",
@@ -394,7 +394,7 @@
   "50": {
     "inputs": {
       "upscale_by": 1.5,
-      "seed": 50556110926983,
+      "seed": 116,
       "steps": 20,
       "cfg": 4,
       "sampler_name": "dpmpp_2m",

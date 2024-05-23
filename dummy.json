@@ -1,0 +1,125 @@
+{
+    "4": {
+      "inputs": {
+        "ckpt_name": "absolutereality_v181.safetensors"
+      },
+      "class_type": "CheckpointLoaderSimple",
+      "_meta": {
+        "title": "Load Checkpoint"
+      }
+    },
+    "6": {
+      "inputs": {
+        "text": "beautiful scenery nature glass bottle landscape, , purple galaxy bottle,",
+        "clip": [
+          "4",
+          1
+        ]
+      },
+      "class_type": "CLIPTextEncode",
+      "_meta": {
+        "title": "Positive Prompt"
+      }
+    },
+    "7": {
+      "inputs": {
+        "text": "text, watermark",
+        "clip": [
+          "4",
+          1
+        ]
+      },
+      "class_type": "CLIPTextEncode",
+      "_meta": {
+        "title": "Negative Prompt"
+      }
+    },
+    "8": {
+      "inputs": {
+        "samples": [
+          "12",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      },
+      "class_type": "VAEDecode",
+      "_meta": {
+        "title": "VAE Decode"
+      }
+    },
+    "9": {
+      "inputs": {
+        "filename_prefix": "ComfyUI",
+        "images": [
+          "8",
+          0
+        ]
+      },
+      "class_type": "SaveImage",
+      "_meta": {
+        "title": "Save Image"
+      }
+    },
+    "10": {
+      "inputs": {
+        "image": "images (4).jpeg",
+        "upload": "image"
+      },
+      "class_type": "LoadImage",
+      "_meta": {
+        "title": "Input Image"
+      }
+    },
+    "11": {
+      "inputs": {
+        "pixels": [
+          "10",
+          0
+        ],
+        "vae": [
+          "4",
+          2
+        ]
+      },
+      "class_type": "VAEEncode",
+      "_meta": {
+        "title": "VAE Encode"
+      }
+    },
+    "12": {
+      "inputs": {
+        "add_noise": "enable",
+        "noise_seed": 705911272990896,
+        "steps": 20,
+        "cfg": 8,
+        "sampler_name": "euler",
+        "scheduler": "normal",
+        "start_at_step": 0,
+        "end_at_step": 10000,
+        "return_with_leftover_noise": "disable",
+        "model": [
+          "4",
+          0
+        ],
+        "positive": [
+          "6",
+          0
+        ],
+        "negative": [
+          "7",
+          0
+        ],
+        "latent_image": [
+          "11",
+          0
+        ]
+      },
+      "class_type": "KSamplerAdvanced",
+      "_meta": {
+        "title": "KSampler (Advanced)"
+      }
+    }
+  }

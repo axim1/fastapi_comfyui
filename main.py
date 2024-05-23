@@ -5,6 +5,7 @@ from api.server import app
 import os
 from core.config import Settings
 env = Settings()
+from fastapi.middleware.cors import CORSMiddleware
 
 
 
