@@ -102,7 +102,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Positive Prompt)"
+      "title": "CLIP Text Encode (Prompt)"
     }
   },
   "14": {
@@ -115,7 +115,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Negative Prompt)"
+      "title": "CLIP Text Encode (Prompt)"
     }
   },
   "17": {
@@ -184,7 +184,7 @@
   "24": {
     "inputs": {
       "add_noise": "enable",
-      "noise_seed": 438588991653861,
+      "noise_seed": 1089735123897147,
       "steps": 10,
       "cfg": 5.6000000000000005,
       "sampler_name": "dpmpp_2m",
@@ -217,7 +217,7 @@
   "25": {
     "inputs": {
       "add_noise": "enable",
-      "noise_seed": 306625441119683,
+      "noise_seed": 542441499798711,
       "steps": 20,
       "cfg": 5.6000000000000005,
       "sampler_name": "dpmpp_2m",
@@ -307,7 +307,7 @@
       "guide_size": 384,
       "guide_size_for": true,
       "max_size": 1024,
-      "seed": 474039017452256,
+      "seed": 75422124324463,
       "steps": 8,
       "cfg": 4,
       "sampler_name": "dpmpp_2m",
@@ -394,7 +394,7 @@
   "50": {
     "inputs": {
       "upscale_by": 1.5,
-      "seed": 747274047950314,
+      "seed": 50556110926983,
       "steps": 20,
       "cfg": 4,
       "sampler_name": "dpmpp_2m",
