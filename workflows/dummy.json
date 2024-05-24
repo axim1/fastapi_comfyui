@@ -94,7 +94,7 @@
   },
   "13": {
     "inputs": {
-      "text": " ",
+      "text": "a girl in black dress ",
       "clip": [
         "11",
         0
@@ -102,7 +102,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Positive Prompt)"
+      "title": "Positive Prompt"
     }
   },
   "14": {
@@ -115,7 +115,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Negative Prompt)"
+      "title": "Negative Prompt"
     }
   },
   "17": {
@@ -257,7 +257,7 @@
     },
     "class_type": "CLIPTextEncode",
     "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
+      "title": "Prompt"
     }
   },
   "31": {
