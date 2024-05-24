@@ -22,12 +22,14 @@ class StableDiffusionService:
             self,
             prompt: str,
             negative_prompt: str,
+            cond_prompt:str,
             input_image_uuid: str,
             ):
         task = [
             DummyTask(
                 prompt=prompt,
                 negative_prompt=negative_prompt,
+                cond_prompt=cond_prompt,
                 input_image_uuid=input_image_uuid,
             )
         ]

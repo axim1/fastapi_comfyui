@@ -9,6 +9,7 @@ def productworkflowbg(
         sd_svc,
         prompt,
         negative_prompt,
+        cond_prompt,
         input_image_uuid,
         num_images,
         uuid_mul,
@@ -25,6 +26,7 @@ def productworkflowbg(
             image = sd_svc.dummyworkflow(
                 prompt=prompt,
                 negative_prompt=negative_prompt,
+                cond_prompt=cond_prompt,
                 input_image_uuid=input_image_uuid,
                 )
             if image:
