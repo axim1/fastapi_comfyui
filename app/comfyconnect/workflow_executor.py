@@ -47,9 +47,12 @@ class WorkflowExecutor(ComfyConnector):
             file_path,
         ):
         try:
+            print(f"conditional prompt : {task_dict['cond_prompt']}")
             ComfyConnector.replace_key_value_in_node(payload, target_key = "image", new_value = file_path['name'], target_title="Load Image")
             ComfyConnector.replace_key_value_in_node(payload, target_key = "text", new_value = task_dict['prompt'], target_title="Positive Prompt")
             ComfyConnector.replace_key_value_in_node(payload, target_key = "text", new_value = task_dict['negative_prompt'], target_title="Negative Prompt")
+            ComfyConnector.replace_key_value_in_node(payload, target_key = "text", new_value = task_dict['cond_prompt'], target_title="Prompt")
+                                                                                                        # cond_prompt
             images = self.generate_images(payload)
             return images
         except Exception as e:

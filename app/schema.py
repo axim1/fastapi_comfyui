@@ -5,6 +5,7 @@ import typing as T
 class DummyTask(BaseModel):
     prompt: str
     negative_prompt: str
+    cond_prompt:str
     input_image_uuid: str
 
 class VirtualTryonTask(BaseModel):
