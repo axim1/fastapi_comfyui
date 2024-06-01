@@ -10,6 +10,7 @@ def productworkflowbg(
         prompt,
         negative_prompt,
         cond_prompt,
+        checkpoint,
         input_image_uuid,
         num_images,
         uuid_mul,
@@ -27,6 +28,7 @@ def productworkflowbg(
                 prompt=prompt,
                 negative_prompt=negative_prompt,
                 cond_prompt=cond_prompt,
+                checkpoint=checkpoint,
                 input_image_uuid=input_image_uuid,
                 )
             if image:

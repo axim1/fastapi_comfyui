@@ -1,4 +1,5 @@
-from fastapi import UploadFile
+import time
+from fastapi import UploadFile,BackgroundTasks
 from PIL import Image, ImageOps
 import os
 import json
@@ -19,11 +20,16 @@ def read_image(image: UploadFile) -> Image.Image:
     image = image.convert("RGB")
     return image
 
+def delete_image_after_delay(image_path: str, delay: int = 3600):
+    time.sleep(delay)
+    if os.path.exists(image_path):
+        os.remove(image_path)
+        print("Image deleted")
 @cbv(request_router)
 class StatusEndpoint:
 
     @request_router.get("/getimage/{image_uuid}")
-    async def get_image(self, image_uuid: str, delete: bool = True, type: str = "PNG", base64_c: bool = False, quality_level: int = 90):
+    async def get_image(self, image_uuid: str, delete: bool = True, type: str = "PNG", base64_c: bool = False, quality_level: int = 90, background_tasks: BackgroundTasks = BackgroundTasks()):
         # Validate quality_level and type
         if not 0 <= quality_level <= 100:
             quality_level = 90
@@ -34,7 +40,7 @@ class StatusEndpoint:
         
         # Check if the file exists
         if not os.path.exists(image_path) or not image_uuid:
-            return "Image not found"
+            return {"status": "started - processing"}
 
         # Read the image from disk
         image = cv2.imread(image_path)
@@ -50,6 +56,11 @@ class StatusEndpoint:
 
         if delete:
             os.remove(image_path)
+        else:
+            # Schedule the background task to delete the image after an hour
+            print("Background process to delete image after 1 hour initiated")
+            background_tasks.add_task(delete_image_after_delay, image_path)
+
 
         if base64_c:
             encoded_image_string = base64.b64encode(encoded_image).decode()

@@ -6,6 +6,7 @@ class DummyTask(BaseModel):
     prompt: str
     negative_prompt: str
     cond_prompt:str
+    checkpoint:str
     input_image_uuid: str
 
 class VirtualTryonTask(BaseModel):

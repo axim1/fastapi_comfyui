@@ -62,6 +62,7 @@ class StableDiffusion:
         prompt: str = Form(),
         negative_prompt: str = Form(default=""),
         cond_prompt: str = Form(default=""),
+        checkpoint: str = Form(default="sd_xl_base_1.0.safetensors",description="sd_xl_base_1.0.safetensors"),        
         input_image: UploadFile = File(...),
         num_images: int = Form(1, description="Number of images to generate"),
         revert_extra: str = Form(default=None, description= " Identifier to revert the extra data in the callback url"),
@@ -88,6 +89,7 @@ class StableDiffusion:
                                 prompt=prompt,
                                 negative_prompt=negative_prompt,
                                 cond_prompt=cond_prompt,
+                                checkpoint= checkpoint,
                                 input_image_uuid=input_image_uuid,
                                 num_images=num_images,
                                 uuid_mul=uuid_mul,
@@ -98,6 +100,7 @@ class StableDiffusion:
         return ProductWorkflowResponse(
             prompt=prompt,
             negative_prompt=negative_prompt,
+            cond_prompt=cond_prompt,
             num_images=num_images,
             images_info=images_info
         )

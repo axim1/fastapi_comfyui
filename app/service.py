@@ -23,6 +23,7 @@ class StableDiffusionService:
             prompt: str,
             negative_prompt: str,
             cond_prompt:str,
+            checkpoint:str,
             input_image_uuid: str,
             ):
         task = [
@@ -30,6 +31,7 @@ class StableDiffusionService:
                 prompt=prompt,
                 negative_prompt=negative_prompt,
                 cond_prompt=cond_prompt,
+                checkpoint=checkpoint,
                 input_image_uuid=input_image_uuid,
             )
         ]
